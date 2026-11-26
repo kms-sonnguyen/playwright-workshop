@@ -90,7 +90,7 @@ change it to `test`, fill in the steps, and run it.
 | Session 2 exercise | File |
 |---|---|
 | 1 — Read the failures (diagnose, don't fix) | `tests/session-2/broken/` |
-| 2 — Fix the timing flakes | the files in `tests/session-2/broken/` with tests you marked *timing* |
+| 2 — Fix the timing flakes | the three timing tests in `tests/session-2/broken/` (account, cart, search) — run them with `-g "log in\|confirmation\|only pliers"` |
 | 3 — Strengthen weak assertions | `tests/session-2/ex3-weak-assertions.spec.ts` |
 | 4 — Find the failure in the evidence | any failing ex3 test, run with `--trace on` |
 

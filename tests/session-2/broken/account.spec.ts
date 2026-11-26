@@ -5,7 +5,8 @@ import { test, expect } from '@playwright/test';
 //             add a comment above it:  // CAUSE: timing | data | order | environment — <one line why>
 //             Don't fix anything yet.
 // Exercise 2: fix the tests you marked "timing" (web-first assertions, no sleeps), then prove it:
-//             npx playwright test <this file> --repeat-each=20 --project=chromium
+//             npx playwright test session-2/broken -g "log in|confirmation|only pliers" --repeat-each=20 --project=chromium
+//             (the -g pattern runs only the three timing tests, one in each of account, cart and search)
 
 test.describe.fixme('broken suite · account', () => {
   test('customer can log in and sees their account page', async ({ page }) => {
