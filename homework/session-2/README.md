@@ -1,6 +1,6 @@
 # Session 2 homework — debug a broken suite, then automate 3 longer scenarios
 
-**Due:** 48 hours before Session 3 · **Time:** about 3–4 hours
+**Due:** 48 hours before Session 3
 **Submit:** a pull request from branch `hw/s2` (see the course README)
 
 Both parts are different from the in-class exercises: new features, longer flows, and problems that hide behind each other.
@@ -8,7 +8,7 @@ Before you submit, run `npm run selfcheck`.
 
 ---
 
-## Part 1 — Fix the broken suite (about 1.5 hours)
+## Part 1 — Fix the broken suite
 
 **Files:** `tests/session-2/homework/broken/` (5 files, 7 tests)
 
@@ -49,15 +49,16 @@ Rules:
 
 ---
 
-## Part 2 — Three longer scenarios (about 2 hours)
+## Part 2 — Three longer scenarios
 
 **File:** `tests/session-2/homework/new-tests.spec.ts` — one Playwright test per test case.
 
-Explore each scenario by hand first — each one has a surprise in it. Each test must **pass**, and must **fail if the feature it checks is broken**.
+Explore each scenario by hand first — each one has a surprise in it. Each test must **pass**, and must **fail if the feature it checks is broken**
+(see [How to check that a test can fail](#how-to-check-that-a-test-can-fail) below).
 Check every expected result right after the step it belongs to. Above each test, write how you checked it can fail:
 
 ```ts
-// Can fail: changed the expected total to $47.83 — the test failed at step 4.
+// Can fail: commented out the quantity change in step 4 — the test failed on the cart total ($29.48 instead of $47.82).
 ```
 
 All scenarios start **not logged in** with an empty cart (every Playwright test gets a fresh browser).
@@ -96,6 +97,28 @@ All scenarios start **not logged in** with an empty cart (every Playwright test 
 > Check the handle's value too, not only the product list.
 
 ---
+
+## How to check that a test can fail
+
+A test that passes proves nothing until you have seen it fail for the right reason.
+You can't break the real shop, so **simulate the bug in your test** and watch what happens. Do this for every test, then undo it.
+
+1. **Remove the action.** Comment out the step that makes the feature happen: the click on **Add to cart**, the quantity change,
+   the sort, the move of the slider handle. If the test still passes, its assertions don't check the result of that step.
+2. **Change the input.** Use a different product, quantity, category or address than the expected result is based on.
+   The test should fail on the check that depends on that input. If it fails somewhere else, or not at all, your check is in the wrong place.
+3. **Change the expected value** (for example `$47.82` → `$47.83`). This only proves the assertion runs — it is the weakest of the three,
+   so don't stop here.
+4. **For every "not shown" check** (`toBeHidden()`, `not.toBeVisible()`, `toHaveCount(0)`), first prove the same locator finds the element
+   when it *is* there. Otherwise a typo in the locator makes the check pass forever.
+
+What you're looking for each time:
+
+- The test goes **red**, on the **assertion** you expected (read the error: which line, expected vs received) — not on a timeout somewhere earlier.
+- With the change undone, it goes **green** again.
+
+Then write one line above the test saying what you broke and what happened — the `// Can fail:` comment.
+The same method finds the test in Part 1 that passes today but checks nothing.
 
 ## What's scored
 
